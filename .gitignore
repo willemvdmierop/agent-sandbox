@@ -25,6 +25,8 @@ venv/
 env/
 ENV/
 agent_env/
+.env/
+.venv/
 
 # IDE
 .idea/
@@ -32,9 +34,22 @@ agent_env/
 *.swp
 *.swo
 
-# Environment variables
+# Project specific
+vectorstores/
+*.pdf
 .env
+*.log
+bookkeeper_memory/
+visualizations/
+*.png
+test_*.py
+*_test.py
+*_DEPR.py
+*_converter.py
+claude.py
+file_processor
+DocumentProcessor
 
-# OS
+# OS specific
 .DS_Store
 Thumbs.db 
