@@ -1252,6 +1252,13 @@ Remember: Return ONLY the JSON array, nothing else."""
             explanation = feedback.get("explanation", "")
 
             # Generate a learning point
+            json_template = r'''{
+    "learning_point": "Key learning from this feedback",
+    "question_pattern": "Pattern of questions this applies to",
+    "correct_response": "How similar questions should be answered",
+    "keywords": ["relevant", "keywords", "for", "matching"]
+}'''
+
             learning_prompt = f"""Based on this feedback, create a learning point that can be used to improve future responses.
 Question: {question}
 Original Response: {response}
@@ -1259,12 +1266,7 @@ Feedback: {correction if correction else explanation}
 Is Correct: {is_correct}
 
 Return a JSON object with:
-{{
-    "learning_point": "Key learning from this feedback",
-    "question_pattern": "Pattern of questions this applies to",
-    "correct_response": "How similar questions should be answered",
-    "keywords": ["relevant", "keywords", "for", "matching"]
-}}"""
+{json_template}"""
 
             try:
                 with timeout(5):
