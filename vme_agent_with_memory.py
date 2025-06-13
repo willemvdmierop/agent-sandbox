@@ -738,19 +738,19 @@ Return ONLY true or false."""
 
             # Generate response with learning context
             prompt = f"""You are a helpful assistant. Use the following context to answer the question.
-If there are learning points from previous feedback, prioritize those over document context.
-Be precise and accurate in your response.
+                If there are learning points from previous feedback, prioritize those over document context.
+                Be precise and accurate in your response.
 
-Context:
-{"\n\n".join(formatted_context)}
+                Context:
+                {"\n\n".join(formatted_context)}
 
-Question: {question}
+                Question: {question}
 
-Remember to:
-1. Use learning from feedback if available
-2. Be clear and concise
-3. Cite sources when possible
-4. Acknowledge if you're using feedback-based learning"""
+                Remember to:
+                1. Use learning from feedback if available
+                2. Be clear and concise
+                3. Cite sources when possible
+                4. Acknowledge when using feedback-based learning"""
 
             chain = prompt | self.model | StrOutputParser()
             response = chain.invoke({
