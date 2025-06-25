@@ -180,9 +180,9 @@ def test_pdf_processing(pdf_path: str):
         print("✗ PDF encoding failed")
         return
     
-    # Test 2: Test perform_mistral_ocr function
-    print("\n2. Testing perform_mistral_ocr function...")
-    ocr_results = perform_mistral_ocr(pdf_path)
+    # Test 2: Test smart_pdf_ocr function
+    print("\n2. Testing smart_pdf_ocr function...")
+    ocr_results = smart_pdf_ocr(pdf_path)
     if ocr_results:
         print("✓ OCR processing successful")
         print(f"Number of pages processed: {len(ocr_results)}")
@@ -196,10 +196,28 @@ def test_pdf_processing(pdf_path: str):
     
     print("\n=== All tests completed successfully ===")
 
+def smart_pdf_ocr(pdf_path: str, headers: dict = None) -> List[str]:
+    """Automatically choose the best OCR method based on PDF size/page count."""
+    reader = PdfReader(pdf_path)
+    num_pages = len(reader.pages)
+    file_size = os.path.getsize(pdf_path)
+    if headers is None:
+        headers = {
+            "Authorization": "Bearer 5hT66s9SYBFG96uTNzKTdecpBdN4Bj9D",
+            "Content-Type": "application/json"
+        }
+    # Use chunking for large PDFs
+    if num_pages > 20 or file_size > 10 * 1024 * 1024:
+        print("\n=== This PDF is big, processing large pdf ===")
+        return process_large_pdf(pdf_path, headers)
+    else:
+        print("\n=== This PDF is normal ===", num_pages, "--", file_size)
+        return perform_mistral_ocr(pdf_path)
+
 def main():
     """Main function to test the PDF processor"""
     # Test with a small PDF (less than 5MB)
-    small_pdf = "/Users/willemvandemierop/Desktop/sandbox_owen/Test-AV/2025BAV-verslag.pdf"
+    small_pdf = "/Users/willemvandemierop/Downloads/test_factuur.pdf"
     print("\n=== Testing with small PDF ===")
     test_pdf_processing(small_pdf)
     
